@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 #elif defined(BUILD_SERVER)
 
 	printf("Starting server application...\n");
-	server_process_func(argc, argv);
+	server_process_function(argc, argv);
 
 #else
 
