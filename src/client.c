@@ -22,14 +22,13 @@ static void *client_sock_receiver(void *arg)
     /* receives the data from server continously*/
     while (client_sock_config.client_disconnected_f == false)
     {
-        memset ( buffer, 0 , strlen(buffer) );
+        memset ( buffer, 0 , sizeof(buffer) );
         if ( recv (client_sock_config.socket, buffer, CLIENT_SOCK_RCV_SND_BUFF_SIZE - 1, 0) <= 0)
         {
             printf ("Server Down!\n");
             client_sock_config.client_disconnected_f = true;
             break;
         }
-        buffer[strlen(buffer)] = '\0';
         printf("\n%s\n", buffer);
     }
     pthread_exit (NULL);
@@ -47,19 +46,18 @@ static void *client_sock_sender (void *arg)
     /* gets user input and sends to the required client*/
     while (client_sock_config.client_disconnected_f == false)
     {        
-        memset (buffer, 0, strlen(buffer));
+        memset (buffer, 0, sizeof(buffer));
         fgets(buffer, CLIENT_SOCK_RCV_SND_BUFF_SIZE, stdin);
-        buffer[strlen(buffer)-1] = '\0'; 
 
         /*thread termination on exit*/
-        if (strcmp (buffer, "exit") == 0)
+        if (strcmp (buffer, "exit\n") == 0)
         {
             client_sock_config.client_disconnected_f = true;
             break;
         }
         
         /* sends data to the client through its id*/
-        if ( send (client_sock_config.socket, buffer, strlen(buffer), 0) == -1 )
+        if ( send (client_sock_config.socket, buffer, sizeof(buffer), 0) == -1 )
         {
             perror ("Send Error");
         }
