@@ -57,7 +57,7 @@ static void *client_sock_sender (void *arg)
         }
         
         /* sends data to the client through its id*/
-        if ( send (client_sock_config.socket, buffer, sizeof(buffer), 0) == -1 )
+        if ( send (client_sock_config.socket, buffer, strlen(buffer), 0) == -1 )
         {
             perror ("Send Error");
         }
